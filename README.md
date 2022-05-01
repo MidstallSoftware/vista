@@ -1,2 +1,3 @@
-# nuxtlib
-Library for extra components and useful things to make Midstall's websites work better with Nuxt 3
+# Vista
+
+Vista is a component library for Nuxt 3, it is designed for Midstall Software to make consistent websites. However, anyone can use vista.
