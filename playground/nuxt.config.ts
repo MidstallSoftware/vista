@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   vista: {
     branding: {
       kind: 'product',
+      license: 'GPL-3.0',
     },
   },
   intlify: {
@@ -18,12 +19,15 @@ export default defineNuxtConfig({
             name: 'Midstall Software',
           },
           product: {
-            name: 'Nuxt Library',
+            name: 'Vista',
           },
         },
         ja: {
           company: {
             name: 'ミッドストールソフトウェア',
+          },
+          product: {
+            name: 'ビスタ',
           },
         },
       },

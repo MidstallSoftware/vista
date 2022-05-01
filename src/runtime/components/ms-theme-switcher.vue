@@ -1,9 +1,27 @@
 <template>
-  <v-select v-model="theme" :items="items" prepend-icon="mdi-lightbulb" />
+  <div v-if="menu">
+    <v-menu :anchor="anchor">
+      <template #activator="{ props }">
+        <v-btn v-bind="props" icon="mdi-compare" />
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="(t, i) in items"
+          :key="i"
+          :value="t.value"
+          @click="switchTheme(t.value)"
+        >
+          <v-list-item-title>{{ t.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </div>
+  <v-select v-else v-model="theme" :items="items" prepend-icon="mdi-compare" />
 </template>
 <script setup lang="ts">
 /* eslint @typescript-eslint/no-unused-vars: "warn" */
-import { ref } from 'vue'
+import { ref, defineProps, defineEmits, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface ThemeEntry {
@@ -12,6 +30,9 @@ interface ThemeEntry {
 }
 
 const $i18n = useI18n()
+
+const { menu, anchor } = defineProps<{ menu?: boolean; anchor?: string }>()
+const emit = defineEmits(['update:modelValue'])
 
 const makeEntry = (value: string) =>
   ({
@@ -34,6 +55,11 @@ const modelValue = computed({
   set: (value) =>
     (theme.value = items.value.find((item) => item.value === value)),
 })
+
+const switchTheme = (key: string) => {
+  modelValue.value = key
+  emit('update:modelValue', key)
+}
 </script>
 <i18n>
 {
