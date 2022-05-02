@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: npm test
+      - run: npm run lint
 
   publish-gpr:
     needs: build
@@ -33,7 +33,6 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
-      - run: npm run lint
       - run: npm publish
         if: github.event_name == 'releases'
         env:
