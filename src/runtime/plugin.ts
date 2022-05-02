@@ -1,8 +1,12 @@
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin, useCookie, useHead, useRoute } from '#app'
+import optionsLoader from '#build/midstall.vista.options.mjs'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { createVuetify } from 'vuetify'
 import { aliases, mdi } from 'vuetify/lib/iconsets/mdi'
+import type { Ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const makeDark = (obj) => ({
   ...obj,
@@ -13,6 +17,45 @@ const makeDark = (obj) => ({
   success: '#9ece6a',
   warning: '#ff9e64',
 })
+
+const initVista = () => {
+  const $i18n = useI18n({ useScope: 'global' })
+  const refs: Record<string, Ref<any>> = {
+    theme: ref('night'),
+    locale: ref('en'),
+  }
+
+  const cookies = Object.fromEntries(
+    Object.entries(refs).map(([key, value]) => [
+      key,
+      useCookie(key, {
+        default: () => value,
+      }),
+    ])
+  )
+
+  const comps = {
+    locale: computed({
+      get: () => cookies.locale.value,
+      set: (value) => {
+        cookies.locale.value = value
+        $i18n.locale = value
+      },
+    }),
+  }
+
+  return {
+    refs,
+    cookies,
+    computed: comps,
+    getWebsiteName() {
+      const { branding } = optionsLoader()
+      return $i18n.t(
+        branding.kind === 'product' ? 'product.name' : 'company.name'
+      )
+    },
+  }
+}
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
@@ -63,4 +106,38 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   nuxtApp.vueApp.use(vuetify)
+
+  let vista
+
+  return {
+    provide: {
+      vista() {
+        if (!vista) vista = initVista()
+
+        return {
+          defineHead() {
+            const $i18n = useI18n({ useScope: 'global' })
+            const route = useRoute()
+
+            $i18n.locale.value = vista.computed.locale.value
+
+            useHead(
+              computed(() => ({
+                titleTemplate: `%s - ${vista.getWebsiteName()}`,
+                meta: [
+                  {
+                    name: 'og:title',
+                    content: `${$i18n.t(route.meta.title)} - ${$i18n.t(
+                      'product.name'
+                    )}`,
+                  },
+                ],
+              }))
+            )
+          },
+          ...vista,
+        }
+      },
+    },
+  }
 })

@@ -31,36 +31,34 @@
   </v-app>
 </template>
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 import { LinkCollection } from '../../src/types'
 
+const { $vista } = useNuxtApp()
+const vista = $vista()
 const $i18n = useI18n({ useScope: 'global' })
 
-const theme = useCookie('theme', {
-  default: () => ref('night'),
-})
-
-const localeRef = ref('en')
-const localeCookie = useCookie('locale', {
-  default: () => localeRef,
-})
-
-const links = [
+const links: LinkCollection = [
   { url: '/', icon: 'mdi-home', title: { key: 'page.home' } },
-] as LinkCollection
+]
+
+const theme = computed({
+  get: () => vista.cookies.theme.value,
+  set: (value) => (vista.cookies.theme.value = value),
+})
 
 const locale = computed({
-  get: () => localeCookie.value,
+  get: () => vista.cookies.locale.value,
   set: (value) => {
-    localeCookie.value = value
+    vista.cookies.locale.value = value
     $i18n.locale.value = value
   },
 })
 
-$i18n.locale.value = locale.value
+vista.defineHead()
 </script>
-<script>
+<script lang="ts">
 export default {
   name: 'LayoutDefault',
 }

@@ -26,16 +26,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
-import optionsLoader from '#build/midstall.vista.options.mjs'
 
-const $i18n = useI18n()
+const { $vista } = useNuxtApp()
 
 const drawer = ref(false)
 
-const websiteName = computed(() => {
-  const { branding } = optionsLoader()
-  return $i18n.t(branding.kind === 'product' ? 'product.name' : 'company.name')
-})
+const websiteName = computed(() => $vista().getWebsiteName())
 </script>
