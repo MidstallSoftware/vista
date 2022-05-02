@@ -10,13 +10,18 @@
 
       <v-app-bar-title>{{ websiteName }}</v-app-bar-title>
 
-      <slot name="navbar-left" />
+      <slot name="navbar-prepend" />
       <template #append>
-        <slot name="navbar-right" />
+        <slot />
+        <slot name="navbar-append" />
       </template>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <slot name="drawer" />
+      <slot />
+      <template #append>
+        <slot name="drawer-append" />
+      </template>
     </v-navigation-drawer>
   </div>
 </template>

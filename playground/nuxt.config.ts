@@ -21,6 +21,9 @@ export default defineNuxtConfig({
           product: {
             name: 'Vista',
           },
+          page: {
+            home: 'Home',
+          },
         },
         ja: {
           company: {
@@ -28,6 +31,9 @@ export default defineNuxtConfig({
           },
           product: {
             name: 'ビスタ',
+          },
+          page: {
+            home: 'ホメ',
           },
         },
       },
