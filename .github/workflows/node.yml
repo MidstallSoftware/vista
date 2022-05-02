@@ -1,5 +1,11 @@
 name: Node.js
 on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
   release:
     types: [created]
 
@@ -27,6 +33,8 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
+      - run: npm run lint
       - run: npm publish
+        if: github.event_name == 'releases'
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
