@@ -21,6 +21,7 @@ jobs:
       - run: npm run lint
 
   publish-gpr:
+    if: github.event_name == 'release'
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -34,6 +35,5 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
       - run: npm publish
-        if: github.event_name == 'releases'
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
