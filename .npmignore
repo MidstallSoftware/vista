@@ -1,3 +1,5 @@
+.husky
+kube
 playground
 src
 .eslintrc.cjs
