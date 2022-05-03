@@ -10,7 +10,7 @@
 
         <v-divider />
         <v-card-text>
-          <ms-copyright />
+          <vs-copyright />
         </v-card-text>
       </v-card>
     </div>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="px-4 py-2 text-center w-100">
-          <ms-copyright />
+          <vs-copyright />
         </div>
       </v-container>
     </div>
@@ -39,4 +39,9 @@ const { kind, bottom } = defineProps<{
   bottom?: boolean
   fixed?: boolean
 }>()
+</script>
+<script lang="ts">
+export default {
+  name: 'VSFooter',
+}
 </script>

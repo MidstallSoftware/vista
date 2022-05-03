@@ -16,6 +16,8 @@ import { VIRTUAL_FILENAME } from './constants'
 import { optionsLoader } from './loader'
 import { ModuleOptions } from './types'
 
+const LAYOUTS = ['default']
+
 const exists = async (path) => {
   try {
     await access(path)
@@ -38,6 +40,31 @@ export default defineNuxtModule<ModuleOptions>({
     i18n: {
       localeDir: 'locales',
     },
+    layouts: Object.fromEntries(
+      LAYOUTS.map((name) => [
+        name,
+        {
+          links: [],
+        },
+      ])
+    ),
+  },
+  hooks: {
+    'app:resolve': (app) => {
+      const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
+      app.layouts = Object.assign(
+        app.layouts || {},
+        Object.fromEntries(
+          LAYOUTS.map((shortName) => [
+            `vs-${shortName}`,
+            {
+              name: `vs-${shortName}`,
+              file: resolve(runtimeDir, 'layouts', shortName + '.vue'),
+            },
+          ])
+        )
+      )
+    },
   },
   async setup(options, nuxt) {
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
@@ -46,13 +73,17 @@ export default defineNuxtModule<ModuleOptions>({
     const localePath = resolve(nuxt.options.srcDir, localeDir)
     const hasLocaleFiles = await exists(localePath)
 
-    nuxt.options.modules.push('@intlify/nuxt3')
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.build.transpile.push('vuetify')
     nuxt.options.css.push('vuetify/styles')
     nuxt.options.css.push('@mdi/font/css/materialdesignicons.min.css')
     nuxt.options.vite.define['process.env.DEBUG'] =
       nuxt.options.debug.toString()
+
+    for (const fname of ['default']) {
+      const path = resolve(runtimeDir, nuxt.options.dir.layouts, `${fname}.vue`)
+      nuxt.options.layouts[`vs-${fname}.vue`] = path
+    }
 
     addTemplate({
       filename: VIRTUAL_FILENAME,
@@ -64,6 +95,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addComponentsDir({
       path: resolve(runtimeDir, 'components'),
+      prefix: 'vs',
     })
 
     addPlugin(resolve(runtimeDir, 'plugin'))
@@ -80,7 +112,6 @@ export default defineNuxtModule<ModuleOptions>({
       const viteOptions: VitePluginVueI18nOptions = {
         compositionOnly: false,
         runtimeOnly: false,
-        fullInstall: true,
       }
 
       if (hasLocaleFiles) {

@@ -9,16 +9,11 @@ export default defineNuxtConfig({
       kind: 'product',
       license: 'GPL-3.0',
     },
-  },
-  vite: {
-    resolve: {
-      alias: {
-        'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
+    layouts: {
+      default: {
+        links: [{ url: '/', icon: 'mdi-home', title: { key: 'page.home' } }],
       },
     },
-  },
-  alias: {
-    'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
   },
   intlify: {
     vueI18n: {

@@ -15,7 +15,9 @@
     <span v-if="typeof link.title === 'string'" v-text="link.title" />
   </v-btn>
   <v-btn
-    v-else-if="link !== null && !list && 'url' in link && iconsOnly"
+    v-else-if="
+      link !== null && !list && 'url' in link && 'icon' in link && iconsOnly
+    "
     :href="link.url"
     :icon="link.icon"
   />
@@ -28,14 +30,14 @@
       />
     </template>
 
-    <ms-link v-for="(l, i) in link.children" :key="i" :value="l" list />
+    <vs-link v-for="(l, i) in link.children" :key="i" :value="l" list />
   </v-list-group>
   <v-list
     v-else-if="link === null && list && Array.isArray(links)"
     nav
     density="compact"
   >
-    <ms-link v-for="(l, i) in links" :key="i" :value="l" list />
+    <vs-link v-for="(l, i) in links" :key="i" :value="l" list />
   </v-list>
   <v-menu v-else-if="link !== null && 'children' in link">
     <template #activator="{ props }">
@@ -45,10 +47,10 @@
       </v-btn>
     </template>
 
-    <ms-link :value="link.children" :icons-only="iconsOnly" list />
+    <vs-link :value="link.children" :icons-only="iconsOnly" list />
   </v-menu>
   <div v-else>
-    <ms-link
+    <vs-link
       v-for="(l, i) in links"
       :key="i"
       :value="l"
@@ -134,4 +136,9 @@ const link = computed(() => {
   }
   return null
 })
+</script>
+<script lang="ts">
+export default {
+  name: 'VSLink',
+}
 </script>

@@ -11,6 +11,7 @@ const $i18n = useI18n()
 
 definePageMeta({
   title: 'page.home',
+  layout: 'vs-default',
 })
 </script>
 <script lang="ts">

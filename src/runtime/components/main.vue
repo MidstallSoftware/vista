@@ -7,3 +7,8 @@
     </v-col>
   </v-row>
 </template>
+<script lang="ts">
+export default {
+  name: 'VSMain',
+}
+</script>

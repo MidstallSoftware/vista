@@ -34,3 +34,8 @@ const drawer = ref(false)
 
 const websiteName = computed(() => $vista().getWebsiteName())
 </script>
+<script lang="ts">
+export default {
+  name: 'VSNav',
+}
+</script>

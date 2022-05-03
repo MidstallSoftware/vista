@@ -27,7 +27,8 @@
     "dev": "nuxi dev playground",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{vue,css}\" --ignore-path .gitignore",
-    "lint": "npm run lint:js && npm run lint:style"
+    "lint:prettier": "prettier -c .",
+    "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier"
   },
   "repository": {
     "type": "git",

@@ -38,6 +38,11 @@ const kind = computed(() => optionsLoader().branding.kind)
 const date = computed(() => new Date().getFullYear())
 const license = computed(() => optionsLoader().branding.license)
 </script>
+<script lang="ts">
+export default {
+  name: 'VSCopyright',
+}
+</script>
 <i18n>
 {
   "en": {

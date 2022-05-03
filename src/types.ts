@@ -29,4 +29,10 @@ export interface ModuleOptions {
     kind: 'company' | 'product'
     license?: string | null
   }
+  layouts?: Record<
+    string,
+    {
+      links?: LinkCollection
+    }
+  >
 }
