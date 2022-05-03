@@ -21,3 +21,26 @@ As Nuxt 3 is brand new, there's bound to be issues within it or with related pac
 So we've designed some workarounds which are included in Vista.
 
 - [`@intlify/nuxt3`: `messageCompiler is not a function`](https://github.com/intlify/nuxt3/issues/39)
+
+## Built-in's
+
+Vista comes with many built-in components, layouts, and even themes.
+
+### Themes
+
+- [Tokyo Night (**default**), Tokyo Night Storm, Tokyo Night Light](https://github.com/enkia/tokyo-night-vscode-theme)
+
+### Components
+
+- `vs-app`: Extended type from Vuetify's `v-app`
+- `vs-copyright`: A label for adding a copyright message
+- `vs-footer`: Extended type from Vuetify's `v-footer`, implements different layouts
+- `vs-lang-switcher`: A configurable language switching element, can render as a `v-select` or a button with a menu
+- `vs-link`: A very useful link building component, can render lists and menus
+- `vs-main`: Extended type from Vuetify's `v-main`, centers children
+- `vs-nav`: A `v-app-bar` with `v-navigation-drawer` that builds the menus for you
+- `vs-theme-switcher`: A configurable theme switching element, can render as a `v-select` or a button with a menu
+
+### Layouts
+
+- `vs-default`: A default layout, comes with everything someone would want for a basic website
