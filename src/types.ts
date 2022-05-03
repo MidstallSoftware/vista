@@ -22,6 +22,9 @@ export type Link = BasicLink | LinkGroup
 export type LinkCollection = Record<string, Link> | Link[]
 
 export interface ModuleOptions {
+  i18n?: {
+    localeDir?: string
+  }
   branding?: {
     kind: 'company' | 'product'
     license?: string | null

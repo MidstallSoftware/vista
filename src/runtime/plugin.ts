@@ -7,6 +7,9 @@ import { aliases, mdi } from 'vuetify/lib/iconsets/mdi'
 import type { Ref } from 'vue'
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { compileToFunction, registerMessageCompiler } from '@intlify/core-base'
+
+registerMessageCompiler(compileToFunction)
 
 const makeDark = (obj) => ({
   ...obj,

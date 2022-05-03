@@ -4,13 +4,26 @@ import {
   addTemplate,
   addVitePlugin,
   addWebpackPlugin,
+  extendViteConfig,
   defineNuxtModule,
 } from '@nuxt/kit'
+import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
+import { VitePluginVueI18nOptions } from '@intlify/vite-plugin-vue-i18n/lib/options'
+import { access } from 'fs/promises'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { VIRTUAL_FILENAME } from './constants'
 import { optionsLoader } from './loader'
 import { ModuleOptions } from './types'
+
+const exists = async (path) => {
+  try {
+    await access(path)
+    return true
+  } catch {
+    return false
+  }
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -22,9 +35,16 @@ export default defineNuxtModule<ModuleOptions>({
     branding: {
       kind: 'product',
     },
+    i18n: {
+      localeDir: 'locales',
+    },
   },
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
+
+    const localeDir = options.i18n.localeDir || 'locales'
+    const localePath = resolve(nuxt.options.srcDir, localeDir)
+    const hasLocaleFiles = await exists(localePath)
 
     nuxt.options.modules.push('@intlify/nuxt3')
     nuxt.options.build.transpile.push(runtimeDir)
@@ -47,5 +67,27 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     addPlugin(resolve(runtimeDir, 'plugin'))
+
+    extendViteConfig((config) => {
+      const i = config.plugins.findIndex(
+        (value) =>
+          (value as Record<string, any>).name === 'vite-plugin-vue-i18n'
+      )
+      if (i === -1)
+        throw new Error(
+          '[vista] requires @intlify/nuxt3, please load it before vista'
+        )
+      const viteOptions: VitePluginVueI18nOptions = {
+        compositionOnly: false,
+        runtimeOnly: false,
+        fullInstall: true,
+      }
+
+      if (hasLocaleFiles) {
+        viteOptions['include'] = resolve(localeDir, './**')
+      }
+
+      config.plugins[i] = vueI18n(viteOptions)
+    })
   },
 })

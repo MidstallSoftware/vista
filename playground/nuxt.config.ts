@@ -2,12 +2,23 @@ import { defineNuxtConfig } from 'nuxt'
 import MSNuxtLib from '..'
 
 export default defineNuxtConfig({
-  modules: [MSNuxtLib, '@intlify/nuxt3'],
+  modules: ['@intlify/nuxt3', MSNuxtLib],
+  debug: true,
   vista: {
     branding: {
       kind: 'product',
       license: 'GPL-3.0',
     },
+  },
+  vite: {
+    resolve: {
+      alias: {
+        'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
+      },
+    },
+  },
+  alias: {
+    'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
   },
   intlify: {
     vueI18n: {
