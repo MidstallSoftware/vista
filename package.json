@@ -43,6 +43,7 @@
   "peerDependencies": {
     "@intlify/nuxt3": "^0.2.1",
     "@mdi/font": "^6.6.96",
+    "@nuxtjs/color-mode": "^3.0.2",
     "vuetify": "^3.0.0-beta.1"
   },
   "dependencies": {

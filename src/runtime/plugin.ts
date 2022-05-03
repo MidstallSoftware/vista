@@ -6,6 +6,7 @@ import {
   useRoute,
 } from '#app'
 import optionsLoader from '#build/midstall.vista.options.mjs'
+import type { useColorMode } from '@nuxtjs/color-mode/dist/runtime/composables'
 import { pick } from 'accept-language-parser'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
@@ -31,7 +32,17 @@ const makeDark = (obj) => ({
 const initVista = () => {
   const $i18n = useI18n({ useScope: 'global' })
   const refs: Record<string, Ref<any>> = {
-    theme: ref('night'),
+    theme: ref(
+      (() => {
+        const colorMode = useColorMode()
+        if (colorMode.preference === 'system' && !colorMode.unknown) {
+          if (colorMode.value === 'light') return 'night-light'
+          else if (colorMode.value === 'dark') return 'night'
+          return colorMode.value
+        }
+        return 'night'
+      })()
+    ),
     locale: ref(
       (() => {
         const acceptLangHeader = useRequestHeaders()['accept-language'] || 'en'

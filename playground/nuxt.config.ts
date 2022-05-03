@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt'
 import MSNuxtLib from '..'
 
 export default defineNuxtConfig({
-  modules: ['@intlify/nuxt3', MSNuxtLib],
+  modules: ['@intlify/nuxt3', '@nuxtjs/color-mode', MSNuxtLib],
   debug: true,
   vista: {
     branding: {

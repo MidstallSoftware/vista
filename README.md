@@ -9,10 +9,11 @@ Vista can be installed into any Nuxt 3 project. However, you must install the pe
 ### Peer Dependencies
 
 - `@intlify/nuxt3`
+- `@nuxtjs/color-mode`
 - `@mdi/font`
 - `vuetify@3.0.0-beta.1`
 
-Another requirement of Vista is it needs to be included in your `nuxt.config.ts`'s `modules` before `@intlify/nuxt3`.
+Another requirement of Vista is it needs to be included in your `nuxt.config.ts`'s `modules` before `@intlify/nuxt3` and `@nuxtjs/color-mode`.
 Without this, Vista cannot find it while compiling your website and so it cannot implement the fix for i18n translations in production.
 
 ## Fixes
