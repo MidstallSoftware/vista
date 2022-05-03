@@ -6,3 +6,4 @@ src
 commitlint.config.cjs
 stylelint.config.cjs
 tsconfig.json
+Dockerfile

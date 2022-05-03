@@ -1,0 +1,41 @@
+name: Docker Image CI
+on:
+  push:
+    branches: [master]
+    # Publish semver tags as releases.
+    tags: ['v*.*.*']
+  pull_request:
+    branches: [master]
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: CI
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@e5622373a38e60fb6d795a4421e56882f2d7a681
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }
