@@ -1,5 +1,12 @@
-import { defineNuxtPlugin, useCookie, useHead, useRoute } from '#app'
+import {
+  defineNuxtPlugin,
+  useCookie,
+  useHead,
+  useRequestHeaders,
+  useRoute,
+} from '#app'
 import optionsLoader from '#build/midstall.vista.options.mjs'
+import { pick } from 'accept-language-parser'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { createVuetify } from 'vuetify'
@@ -25,7 +32,12 @@ const initVista = () => {
   const $i18n = useI18n({ useScope: 'global' })
   const refs: Record<string, Ref<any>> = {
     theme: ref('night'),
-    locale: ref('en'),
+    locale: ref(
+      (() => {
+        const acceptLangHeader = useRequestHeaders()['accept-language'] || 'en'
+        return pick($i18n.availableLocales, acceptLangHeader)
+      })()
+    ),
   }
 
   const cookies = Object.fromEntries(

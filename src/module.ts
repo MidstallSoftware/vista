@@ -64,6 +64,10 @@ export default defineNuxtModule<ModuleOptions>({
           ])
         )
       )
+
+      app.mainComponent = resolve(runtimeDir, 'app.vue')
+
+      console.log(app)
     },
   },
   async setup(options, nuxt) {

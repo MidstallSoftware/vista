@@ -9,7 +9,9 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 
-const $i18n = useI18n()
+const { $vista } = useNuxtApp()
+
+const $i18n = useI18n({ useScope: 'global' })
 const route = useRoute()
 
 const title = computed(() => {
@@ -19,6 +21,6 @@ const title = computed(() => {
 })
 
 useHead({
-  titleTemplate: `%s - ${$i18n.t('product.name')}`,
+  titleTemplate: `%s - ${$vista().getWebsiteName()}`,
 })
 </script>
