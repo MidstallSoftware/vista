@@ -39,3 +39,11 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      - name: Deploy to Kubernetes
+        if: github.event_name != 'pull_request'
+        uses: clowdhaus/argo-cd-action@v1.9.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          command: app
+          options: sync vista-playground
