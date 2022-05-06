@@ -92,6 +92,10 @@ const initVista = () => {
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
+  const themeVars: Record<string, string | number> = {
+    'high-emphasis-opacity': 1,
+    'medium-emphasis-opacity': 1,
+  }
   const vuetify = createVuetify({
     components,
     directives,
@@ -112,6 +116,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             surface: '#1a1b26',
             primary: '#1a1b26',
           }),
+          variables: themeVars,
         },
         'night-storm': {
           dark: true,
@@ -120,6 +125,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             surface: '#24283b',
             primary: '#24283b',
           }),
+          variables: themeVars,
         },
         'night-light': {
           dark: false,
@@ -142,6 +148,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             'on-error': '#343b58',
             'on-info': '#343b58',
           },
+          variables: themeVars,
         },
       },
     },
