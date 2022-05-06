@@ -41,7 +41,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
       - name: Deploy to Kubernetes
         if: github.event_name != 'pull_request'
-        uses: omegion/argocd-app-actions@master
+        uses: omegion/argocd-app-actions@be84a9874fc4087113236886422d37b61155937a
         with:
           appName: 'vista-playground'
           address: ${{ secrets.ARGOCD_HOST }}
