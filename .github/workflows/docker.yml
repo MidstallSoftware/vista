@@ -41,9 +41,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
       - name: Deploy to Kubernetes
         if: github.event_name != 'pull_request'
-        uses: clowdhaus/argo-cd-action@v1.9.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: omegion/argocd-app-actions@master
         with:
-          command: app
-          options: sync vista-playground
+          appName: 'vista-playground'
+          address: ${{ secrets.ARGOCD_HOST }}
+          token: ${{ secrets.ARGOCD_TOKEN }}
