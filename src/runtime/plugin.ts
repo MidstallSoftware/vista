@@ -1,11 +1,5 @@
-import {
-  defineNuxtPlugin,
-  useCookie,
-  useHead,
-  useRequestHeaders,
-  useRoute,
-} from '#app'
-import optionsLoader from '#build/midstall.vista.options.mjs'
+import { defineNuxtPlugin, useCookie, useRequestHeaders } from '#app'
+import type { VistaBaseInstance } from './types'
 import type { useColorMode } from '@nuxtjs/color-mode/dist/runtime/composables'
 import { pick } from 'accept-language-parser'
 import * as components from 'vuetify/components'
@@ -38,61 +32,77 @@ const makeDark = (obj) => ({
   'on-info': '#cfc9c2',
 })
 
-const initVista = () => {
-  const $i18n = useI18n({ useScope: 'global' })
-  const refs: Record<string, Ref<any>> = {
-    theme: ref(
-      (() => {
-        const colorMode = useColorMode()
-        if (colorMode.preference === 'system' && !colorMode.unknown) {
-          if (colorMode.value === 'light') return 'night-light'
-          else if (colorMode.value === 'dark') return 'night'
-          return colorMode.value
-        }
-        return 'night'
-      })()
-    ),
-    locale: ref(
-      (() => {
-        const acceptLangHeader = useRequestHeaders()['accept-language'] || 'en'
-        return pick($i18n.availableLocales, acceptLangHeader)
-      })()
-    ),
-  }
-
-  const cookies = Object.fromEntries(
-    Object.entries(refs).map(([key, value]) => [
-      key,
-      useCookie(key, {
-        default: () => value,
-      }),
-    ])
-  )
-
-  const comps = {
-    locale: computed({
-      get: () => cookies.locale.value,
-      set: (value) => {
-        cookies.locale.value = value
-        $i18n.locale = value
-      },
-    }),
-  }
-
-  return {
-    refs,
-    cookies,
-    computed: comps,
-    getWebsiteName() {
-      const { branding } = optionsLoader()
-      return $i18n.t(
-        branding.kind === 'product' ? 'product.name' : 'company.name'
-      )
-    },
-  }
-}
-
 export default defineNuxtPlugin((nuxtApp) => {
+  let inst: VistaBaseInstance | null = null
+
+  const $vista = (() => {
+    const createVista: () => VistaBaseInstance = () => {
+      const $i18n = useI18n({ useScope: 'global' })
+      const refs: Record<string, Ref<any>> = {
+        theme: ref(
+          (() => {
+            const colorMode = useColorMode()
+            if (colorMode.preference === 'system' && !colorMode.unknown) {
+              if (colorMode.value === 'light') return 'night-light'
+              else if (colorMode.value === 'dark') return 'night'
+              return colorMode.value
+            }
+            return 'night'
+          })()
+        ),
+        locale: ref(
+          (() => {
+            const acceptLangHeader =
+              useRequestHeaders()['accept-language'] || 'en'
+            return pick($i18n.availableLocales, acceptLangHeader)
+          })()
+        ),
+      }
+
+      const cookies = Object.fromEntries(
+        Object.entries(refs).map(([key, value]) => [
+          key,
+          useCookie(`vista.${key}`, {
+            default: () => value,
+          }),
+        ])
+      )
+
+      const computeds = {
+        locale: computed({
+          get: () => cookies.locale.value,
+          set: (value) => {
+            cookies.locale.value = value
+            $i18n.locale = value
+          },
+        }),
+      }
+
+      return {
+        refs,
+        cookies,
+        computed: computeds,
+      }
+    }
+
+    return {
+      get cookies() {
+        if (!inst) inst = createVista()
+        return inst.cookies
+      },
+      get computed() {
+        if (!inst) inst = createVista()
+        return inst.computed
+      },
+      get refs() {
+        if (!inst) inst = createVista()
+        return inst.refs
+      },
+    }
+  })()
+
+  nuxtApp.provide('vista', $vista)
+
   const themeVars: Record<string, string | number> = {
     'high-emphasis-opacity': 1,
     'medium-emphasis-opacity': 1,
@@ -171,38 +181,4 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   nuxtApp.vueApp.use(vuetify)
-
-  let vista
-
-  return {
-    provide: {
-      vista() {
-        if (!vista) vista = initVista()
-
-        return {
-          defineHead() {
-            const $i18n = useI18n({ useScope: 'global' })
-            const route = useRoute()
-
-            $i18n.locale.value = vista.computed.locale.value
-
-            useHead(
-              computed(() => ({
-                titleTemplate: `%s - ${vista.getWebsiteName()}`,
-                meta: [
-                  {
-                    name: 'og:title',
-                    content: `${$i18n.t(route.meta.title)} - ${$i18n.t(
-                      'product.name'
-                    )}`,
-                  },
-                ],
-              }))
-            )
-          },
-          ...vista,
-        }
-      },
-    },
-  }
 })

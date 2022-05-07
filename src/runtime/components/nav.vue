@@ -28,11 +28,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-const { $vista } = useNuxtApp()
+const $vista = useVista()
 
 const drawer = ref(false)
 
-const websiteName = computed(() => $vista().getWebsiteName())
+const websiteName = computed(() => $vista.getWebsiteName())
 </script>
 <script lang="ts">
 export default {

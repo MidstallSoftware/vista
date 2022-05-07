@@ -36,8 +36,7 @@ import { computed } from 'vue'
 import { LinkCollection } from '../../types'
 import optionsLoader from '#build/midstall.vista.options.mjs'
 
-const { $vista } = useNuxtApp()
-const vista = $vista()
+const $vista = useVista()
 const $i18n = useI18n({ useScope: 'global' })
 
 const links = computed<LinkCollection>(
@@ -45,19 +44,19 @@ const links = computed<LinkCollection>(
 )
 
 const theme = computed({
-  get: () => vista.cookies.theme.value,
-  set: (value) => (vista.cookies.theme.value = value),
+  get: () => $vista.cookies.theme.value,
+  set: (value) => ($vista.cookies.theme.value = value),
 })
 
 const locale = computed({
-  get: () => vista.cookies.locale.value,
+  get: () => $vista.cookies.locale.value,
   set: (value) => {
-    vista.cookies.locale.value = value
+    $vista.cookies.locale.value = value
     $i18n.locale.value = value
   },
 })
 
-vista.defineHead()
+$vista.defineHead()
 </script>
 <script lang="ts">
 export default {

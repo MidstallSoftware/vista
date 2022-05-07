@@ -6,12 +6,14 @@ import {
   addWebpackPlugin,
   extendViteConfig,
   defineNuxtModule,
+  addAutoImport,
 } from '@nuxt/kit'
 import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
 import { VitePluginVueI18nOptions } from '@intlify/vite-plugin-vue-i18n/lib/options'
 import { access } from 'fs/promises'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
+import { name, version } from '../package.json'
 import { VIRTUAL_FILENAME } from './constants'
 import { optionsLoader } from './loader'
 import { ModuleOptions } from './types'
@@ -29,8 +31,8 @@ const exists = async (path) => {
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'midstall-vista',
-    version: '0.1.0',
+    name,
+    version,
     configKey: 'vista',
   },
   defaults: {
@@ -90,6 +92,12 @@ export default defineNuxtModule<ModuleOptions>({
     addTemplate({
       filename: VIRTUAL_FILENAME,
       getContents: () => '',
+    })
+
+    addAutoImport({
+      name: 'useVista',
+      as: 'useVista',
+      from: resolve(runtimeDir, 'composables', 'vista'),
     })
 
     addWebpackPlugin(optionsLoader.webpack(options))

@@ -19,12 +19,13 @@
     "*.{css,vue}": "stylelint"
   },
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky install && npm run stubs",
     "prepack": "npm run build",
     "build": "nuxt-module-build",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "dev:build": "nuxi build playground",
-    "dev": "nuxi dev playground",
+    "stubs": "nuxt-module-build --stub && nuxi prepare playground",
+    "playground:build": "nuxi build playground",
+    "playground:dev": "nuxi dev playground",
+    "playground": "node playground/.output/server/index.mjs",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{vue,css}\" --ignore-path .gitignore",
     "lint:prettier": "prettier -c .",
