@@ -21,14 +21,15 @@ registerMessageCompiler(compileToFunction)
 
 const makeDark = (obj) => ({
   ...obj,
+  surface: '#24283b',
   secondary: '#171722',
   accent: '#7aa2f7',
   error: '#f7768e',
   info: '#2ac3de',
   success: '#9ece6a',
   warning: '#ff9e64',
-  'on-background': '#cfc9c2',
-  'on-surface': '#cfc9c2',
+  'on-background': '#7982a9',
+  'on-surface': '#a9b1d6',
   'on-primary': '#cfc9c2',
   'on-secondary': '#cfc9c2',
   'on-success': '#cfc9c2',
@@ -106,6 +107,23 @@ export default defineNuxtPlugin((nuxtApp) => {
         mdi,
       },
     },
+    defaults: {
+      global: {
+        flat: true,
+      },
+      VAppBar: {
+        color: 'background',
+        flat: false,
+      },
+      VNavigationDrawer: {
+        color: 'background',
+        flat: false,
+      },
+      VFooter: {
+        color: 'background',
+        flat: false,
+      },
+    },
     theme: {
       defaultTheme: 'night',
       themes: {
@@ -113,7 +131,6 @@ export default defineNuxtPlugin((nuxtApp) => {
           dark: true,
           colors: makeDark({
             background: '#1a1b26',
-            surface: '#1a1b26',
             primary: '#1a1b26',
           }),
           variables: themeVars,
@@ -121,8 +138,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         'night-storm': {
           dark: true,
           colors: makeDark({
-            background: '#24283b',
-            surface: '#24283b',
+            background: '#1f2335',
             primary: '#24283b',
           }),
           variables: themeVars,
@@ -130,7 +146,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         'night-light': {
           dark: false,
           colors: {
-            background: '#d5d6db',
+            background: '#cbccd1',
             surface: '#d5d6db',
             primary: '#d5d6db',
             secondary: '#cecfd4',
@@ -139,8 +155,8 @@ export default defineNuxtPlugin((nuxtApp) => {
             info: '#166775',
             success: '#485e30',
             warning: '#965027',
-            'on-background': '#343b58',
-            'on-surface': '#343b58',
+            'on-background': '#4c505e',
+            'on-surface': '#343b59',
             'on-primary': '#343b58',
             'on-secondary': '#343b58',
             'on-success': '#343b58',
