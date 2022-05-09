@@ -1,15 +1,18 @@
 {
   "name": "@midstallsw/vista",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Library for extra components and useful things to make Midstall's websites work better with Nuxt 3",
   "main": "dist/module.cjs",
+  "module": "dist/module.mjs",
   "types": "dist/types.d.ts",
   "type": "module",
   "exports": {
     ".": {
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
-    }
+    },
+    "./dist/runtime/*": "./dist/runtime/*",
+    "./runtime/*": "./dist/runtime/*"
   },
   "files": [
     "dist"
@@ -18,6 +21,7 @@
     "*.{js,vue}": "eslint",
     "*.{css,vue}": "stylelint"
   },
+  "sideEffects": false,
   "scripts": {
     "prepare": "husky install && npm run stubs",
     "prepack": "npm run build",
