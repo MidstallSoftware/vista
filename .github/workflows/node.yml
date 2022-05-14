@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com
-          scope: '@midstallsw'
+          scope: '@midstallsoftware'
       - name: Set registry
         run: echo "//npm.pkg.github.com:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - run: npm ci && npm run dev:prepare
