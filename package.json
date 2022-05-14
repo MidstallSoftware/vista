@@ -1,10 +1,12 @@
 {
   "name": "@midstallsw/vista",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Library for extra components and useful things to make Midstall's websites work better with Nuxt 3",
-  "main": "dist/module.cjs",
-  "module": "dist/module.mjs",
-  "types": "dist/types.d.ts",
+  "main": "./dist/module.mjs",
+  "module": "./dist/module.mjs",
+  "commonjs": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "typings": "./dist/types.d.ts",
   "type": "module",
   "exports": {
     ".": {
@@ -23,8 +25,8 @@
   },
   "sideEffects": false,
   "scripts": {
-    "prepare": "husky install && npm run stubs",
-    "prepack": "npm run build",
+    "dev:prepare": "husky install && npm run stubs",
+    "prepack": "nuxt-module-build",
     "build": "nuxt-module-build",
     "stubs": "nuxt-module-build --stub && nuxi prepare playground",
     "playground:build": "nuxi build playground",
