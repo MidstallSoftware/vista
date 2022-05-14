@@ -2,6 +2,7 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
   declaration: true,
+  externals: ['accept-language-parser'],
   entries: [
     'src/module',
     {

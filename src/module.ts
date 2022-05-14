@@ -129,6 +129,7 @@ export default defineNuxtModule<ModuleOptions>({
       }
 
       config.plugins[i] = vueI18n(viteOptions)
+      config.optimizeDeps.include.push('accept-language-parser')
     })
   },
 })
