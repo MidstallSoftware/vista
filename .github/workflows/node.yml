@@ -35,7 +35,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
       - name: Set registry
         run: echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > ~/.npmrc
-      - run: npm ci
+      - run: npm ci && npm run dev:prepare
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org
-      - run: npm ci
+      - run: npm ci && npm run dev:prepare
       - run: npm publish --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
