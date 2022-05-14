@@ -4,7 +4,7 @@ Vista is a component library for Nuxt 3, it is designed for Midstall Software to
 
 ## Requirements
 
-Vista can be installed into any Nuxt 3 project. However, you must install the peer dependencies yourself.
+Vista can be installed into any Nuxt 3.0-rc1 project. However, you must install the peer dependencies yourself.
 
 ### Peer Dependencies
 

@@ -2,8 +2,6 @@ import {
   addComponentsDir,
   addPlugin,
   addTemplate,
-  addVitePlugin,
-  addWebpackPlugin,
   extendViteConfig,
   defineNuxtModule,
   addAutoImport,
@@ -14,8 +12,6 @@ import { access } from 'fs/promises'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { name, version } from '../package.json'
-import { VIRTUAL_FILENAME } from './constants'
-import { optionsLoader } from './loader'
 import { ModuleOptions } from './types'
 
 const LAYOUTS = ['default']
@@ -89,19 +85,23 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.layouts[`vs-${fname}.vue`] = path
     }
 
-    addTemplate({
-      filename: VIRTUAL_FILENAME,
-      getContents: () => '',
-    })
+    nuxt.options.alias['#midstallsw-vista-options'] = addTemplate({
+      filename: 'midstallsw-vista-options.mjs',
+      getContents: () =>
+        Object.entries(options)
+          .map(
+            ([key, value]) =>
+              `export const ${key} = ${JSON.stringify(value, null, 2)}
+			`
+          )
+          .join('\n'),
+    }).dst
 
     addAutoImport({
       name: 'useVista',
       as: 'useVista',
       from: resolve(runtimeDir, 'composables', 'vista'),
     })
-
-    addWebpackPlugin(optionsLoader.webpack(options))
-    addVitePlugin(optionsLoader.vite(options))
 
     addComponentsDir({
       path: resolve(runtimeDir, 'components'),

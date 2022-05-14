@@ -1,16 +1,14 @@
-import { useState, useRoute, useHead, useNuxtApp } from '#app'
-import optionsLoader from '#build/midstall.vista.options.mjs'
+import { useRoute, useHead, useNuxtApp } from '#app'
+import { branding } from '#midstallsw-vista-options'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import type { VistaBaseInstance, VistaInstance } from '../types'
+import type { VistaInstance } from '../types'
 
 export const useVista = () => {
-  //const $vista = useState('vista').value as VistaBaseInstance
   const { $vista } = useNuxtApp()
   const $i18n = useI18n({ useScope: 'global' })
 
   const getWebsiteI18nKey = () => {
-    const { branding } = optionsLoader()
     return branding.kind === 'product' ? 'product.name' : 'company.name'
   }
 

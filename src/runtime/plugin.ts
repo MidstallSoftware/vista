@@ -1,6 +1,10 @@
-import { defineNuxtPlugin, useCookie, useRequestHeaders } from '#app'
+import {
+  defineNuxtPlugin,
+  useCookie,
+  useRequestHeaders,
+  useNuxtApp,
+} from '#app'
 import type { VistaBaseInstance } from './types'
-import type { useColorMode } from '@nuxtjs/color-mode/dist/runtime/composables'
 import { pick } from 'accept-language-parser'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
@@ -41,11 +45,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       const refs: Record<string, Ref<any>> = {
         theme: ref(
           (() => {
-            const colorMode = useColorMode()
-            if (colorMode.preference === 'system' && !colorMode.unknown) {
-              if (colorMode.value === 'light') return 'night-light'
-              else if (colorMode.value === 'dark') return 'night'
-              return colorMode.value
+            const { $colorMode } = useNuxtApp()
+            if ($colorMode.preference === 'system' && !$colorMode.unknown) {
+              if ($colorMode.value === 'light') return 'night-light'
+              else if ($colorMode.value === 'dark') return 'night'
+              return $colorMode.value
             }
             return 'night'
           })()

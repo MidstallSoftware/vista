@@ -27,6 +27,7 @@
 </template>
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useVista } from '../composables/vista'
 
 const $vista = useVista()
 

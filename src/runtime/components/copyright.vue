@@ -30,13 +30,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import optionsLoader from '#build/midstall.vista.options.mjs'
+import { branding } from '#midstallsw-vista-options'
 
 const $i18n = useI18n()
 
-const kind = computed(() => optionsLoader().branding.kind)
+const kind = computed(() => branding.kind)
 const date = computed(() => new Date().getFullYear())
-const license = computed(() => optionsLoader().branding.license)
+const license = computed(() => branding.license)
 </script>
 <script lang="ts">
 export default {

@@ -34,14 +34,13 @@
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { LinkCollection } from '../../types'
-import optionsLoader from '#build/midstall.vista.options.mjs'
+import { useVista } from '../composables/vista'
+import { layouts } from '#midstallsw-vista-options'
 
 const $vista = useVista()
 const $i18n = useI18n({ useScope: 'global' })
 
-const links = computed<LinkCollection>(
-  () => optionsLoader().layouts.default.links
-)
+const links = computed<LinkCollection>(() => layouts.default.links)
 
 const theme = computed({
   get: () => $vista.cookies.theme.value,
