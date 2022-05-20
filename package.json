@@ -1,5 +1,5 @@
 {
-  "name": "@midstallsw/vista",
+  "name": "@midstallsoftware/vista",
   "version": "0.1.5",
   "description": "Library for extra components and useful things to make Midstall's websites work better with Nuxt 3",
   "main": "./dist/module.mjs",
