@@ -57,6 +57,7 @@
     "@intlify/core-base": "^9.1.10",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@nuxt/kit": "npm:@nuxt/kit-edge@latest",
+    "@vuetify/vite-plugin": "^1.0.0-alpha.10",
     "accept-language-parser": "^1.5.0",
     "date-fns": "^2.28.0",
     "vue-next-i18n": "^1.0.10"

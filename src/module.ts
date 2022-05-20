@@ -8,6 +8,7 @@ import {
 } from '@nuxt/kit'
 import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
 import { VitePluginVueI18nOptions } from '@intlify/vite-plugin-vue-i18n/lib/options'
+import vuetify from '@vuetify/vite-plugin'
 import { access } from 'fs/promises'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
@@ -129,7 +130,30 @@ export default defineNuxtModule<ModuleOptions>({
       }
 
       config.plugins[i] = vueI18n(viteOptions)
+      config.plugins.push(vuetify())
+
+      config.plugins.push({
+        name: 'vuetify-fix-config',
+        configResolved: (config) => {
+          const idx = config.plugins.findIndex(
+            (plugin) => plugin.name === 'vuetify:import'
+          )
+          const vueIdx = config.plugins.findIndex(
+            (plugin) => plugin.name === 'vite:vue'
+          )
+          if (~idx && idx < vueIdx) {
+            const plugin = (config.plugins as unknown[])[idx]
+            ;(config.plugins as []).splice(idx, 1)
+            ;(config.plugins as []).splice(vueIdx, 0, plugin as never)
+          }
+        },
+      })
+
       config.optimizeDeps.include.push('accept-language-parser')
+      config.define['process.env.NODE_ENV'] = `"${
+        process.env.NODE_ENV || 'development'
+      }"`
+      config.define['process.env.DEBUG'] = `${process.env.DEBUG || 'false'}`
     })
   },
 })
