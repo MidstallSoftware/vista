@@ -20,13 +20,14 @@ export interface LinkGroup {
 
 export type Link = BasicLink | LinkGroup
 export type LinkCollection = Record<string, Link> | Link[]
+export type BrandKind = 'company' | 'product' | 'personal'
 
 export interface ModuleOptions {
   i18n?: {
     localeDir?: string
   }
   branding?: {
-    kind: 'company' | 'product' | 'personal'
+    kind: BrandKind
     license?: string | null
   }
   layouts?: Record<

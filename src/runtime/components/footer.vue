@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="w-100" :bottom="bottom" :fixed="fixed">
+  <v-footer :class="'w-100' + extraClasses">
     <div v-if="kind === 'company'" class="w-100">
       <v-card elevation="0" rounded="0" width="100%" class="text-center">
         <v-card-text>
@@ -32,16 +32,31 @@
   </v-footer>
 </template>
 <script setup lang="ts">
-type FooterKind = 'company' | 'social'
+import { computed } from 'vue'
+import { BrandKind } from '../../types'
 
-const { kind, bottom } = defineProps<{
-  kind?: FooterKind
+const { kind, bottom, fixed } = defineProps<{
+  kind?: BrandKind
   bottom?: boolean
   fixed?: boolean
 }>()
+
+const extraClasses = computed(() => {
+  let str = ''
+  if (bottom) str += ' v-footer--bottom v-footer--absolute'
+  if (fixed) str += '  v-footer--fixed'
+  return str
+})
 </script>
 <script lang="ts">
 export default {
   name: 'VSFooter',
 }
 </script>
+<style>
+/* stylelint-disable selector-class-pattern */
+.v-footer--bottom {
+  bottom: 0;
+}
+/* stylelint-enable selector-class-pattern */
+</style>
