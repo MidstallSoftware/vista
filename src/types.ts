@@ -26,7 +26,7 @@ export interface ModuleOptions {
     localeDir?: string
   }
   branding?: {
-    kind: 'company' | 'product'
+    kind: 'company' | 'product' | 'personal'
     license?: string | null
   }
   layouts?: Record<

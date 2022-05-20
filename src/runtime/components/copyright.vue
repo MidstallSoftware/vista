@@ -1,6 +1,6 @@
 <template>
   <p>
-    {{ date }} -
+    &copy; {{ date }} -
     <span v-if="kind === 'product'">
       <i18n-t keypath="product.copyright" tag="span" :i18n="$i18n">
         <template #product>
@@ -24,7 +24,10 @@
         </template>
       </i18n-t>
     </span>
-    <strong v-else>{{ $i18n.t('company.name') }}</strong>
+    <strong v-else-if="kind === 'company'">{{
+      $i18n.t('company.name')
+    }}</strong>
+    <strong v-else>{{ $i18n.t('website.name') }}</strong>
   </p>
 </template>
 <script setup lang="ts">

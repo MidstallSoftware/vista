@@ -39,19 +39,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MidstallSoftware/nuxtlib.git"
+    "url": "git+https://github.com/MidstallSoftware/vista.git"
   },
   "author": "Tristan Ross",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/MidstallSoftware/nuxtlib/issues"
+    "url": "https://github.com/MidstallSoftware/vista/issues"
   },
-  "homepage": "https://github.com/MidstallSoftware/nuxtlib#readme",
+  "homepage": "https://github.com/MidstallSoftware/vista#readme",
   "peerDependencies": {
     "@intlify/nuxt3": "^0.2.1",
     "@mdi/font": "^6.6.96",
     "@nuxtjs/color-mode": "^3.0.2",
-    "vuetify": "^3.0.0-beta.1"
+    "vuetify": "3.0.0-beta.2"
   },
   "dependencies": {
     "@intlify/core-base": "^9.1.10",

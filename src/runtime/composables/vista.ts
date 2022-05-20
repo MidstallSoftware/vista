@@ -9,7 +9,14 @@ export const useVista = () => {
   const $i18n = useI18n({ useScope: 'global' })
 
   const getWebsiteI18nKey = () => {
-    return branding.kind === 'product' ? 'product.name' : 'company.name'
+    switch (branding.kind) {
+      case 'product':
+        return 'product.name'
+      case 'company':
+        return 'company.name'
+      default:
+        return 'website.name'
+    }
   }
 
   const getWebsiteName = () => $i18n.t(getWebsiteI18nKey())
@@ -29,7 +36,13 @@ export const useVista = () => {
               getWebsiteI18nKey()
             )}`,
           },
-        ],
+          typeof route.meta.description === 'string'
+            ? {
+                name: 'og:description',
+                content: $i18n.t(route.meta.description as string),
+              }
+            : null,
+        ].filter((v) => !!v),
       }))
     )
   }

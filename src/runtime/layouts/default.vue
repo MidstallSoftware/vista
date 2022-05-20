@@ -24,7 +24,7 @@
       <NuxtPage />
     </vs-main>
 
-    <vs-footer bottom fixed kind="social">
+    <vs-footer bottom fixed :kind="branding.kind">
       <vs-lang-switcher v-model="locale" class="mx-4" anchor="top" menu />
       <vs-theme-switcher v-model="theme" class="mx-4" anchor="top" menu />
     </vs-footer>
@@ -35,7 +35,7 @@ import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { LinkCollection } from '../../types'
 import { useVista } from '../composables/vista'
-import { layouts } from '#midstallsw-vista-options'
+import { layouts, branding } from '#midstallsw-vista-options'
 
 const $vista = useVista()
 const $i18n = useI18n({ useScope: 'global' })
@@ -59,6 +59,6 @@ $vista.defineHead()
 </script>
 <script lang="ts">
 export default {
-  name: 'LayoutDefault',
+  name: 'LayoutVsDefault',
 }
 </script>

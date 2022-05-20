@@ -14,7 +14,7 @@
         </v-card-text>
       </v-card>
     </div>
-    <div v-else-if="kind === 'social'" class="w-100">
+    <div v-else-if="kind === 'product'" class="w-100">
       <v-container class="d-flex flex-column w-100">
         <div class="d-flex w-100 align-center px-4">
           <v-spacer />
