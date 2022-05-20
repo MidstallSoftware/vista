@@ -1,3 +1,5 @@
+import { VuetifyOptions } from 'vuetify'
+
 export interface I18nString {
   key: string
   options?: any
@@ -30,6 +32,7 @@ export interface ModuleOptions {
     kind: BrandKind
     license?: string | null
   }
+  vuetify?: VuetifyOptions
   layouts?: Record<
     string,
     {

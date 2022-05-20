@@ -39,6 +39,7 @@ export default defineNuxtModule<ModuleOptions>({
     i18n: {
       localeDir: 'locales',
     },
+    vuetify: {},
     layouts: Object.fromEntries(
       LAYOUTS.map((name) => [
         name,

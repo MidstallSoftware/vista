@@ -4,6 +4,7 @@ import {
   useRequestHeaders,
   useNuxtApp,
 } from '#app'
+import { compileToFunction, registerMessageCompiler } from '@intlify/core-base'
 import type { VistaBaseInstance } from './types'
 import { pick } from 'accept-language-parser'
 import * as components from 'vuetify/components'
@@ -13,7 +14,8 @@ import { aliases, mdi } from 'vuetify/lib/iconsets/mdi'
 import type { Ref } from 'vue'
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { compileToFunction, registerMessageCompiler } from '@intlify/core-base'
+import { vuetify as vuetifyOptions } from '#midstallsw-vista-options'
+import deepmerge from 'deepmerge'
 
 registerMessageCompiler(compileToFunction)
 
@@ -111,78 +113,83 @@ export default defineNuxtPlugin((nuxtApp) => {
     'high-emphasis-opacity': 1,
     'medium-emphasis-opacity': 1,
   }
-  const vuetify = createVuetify({
-    components,
-    directives,
-    icons: {
-      defaultSet: 'mdi',
-      aliases,
-      sets: {
-        mdi,
-      },
-    },
-    defaults: {
-      global: {
-        flat: true,
-      },
-      VAppBar: {
-        color: 'background',
-        flat: false,
-      },
-      VNavigationDrawer: {
-        color: 'background',
-        flat: false,
-      },
-      VFooter: {
-        color: 'background',
-        flat: false,
-      },
-    },
-    theme: {
-      defaultTheme: 'night',
-      themes: {
-        night: {
-          dark: true,
-          colors: makeDark({
-            background: '#1a1b26',
-            primary: '#1a1b26',
-          }),
-          variables: themeVars,
-        },
-        'night-storm': {
-          dark: true,
-          colors: makeDark({
-            background: '#1f2335',
-            primary: '#24283b',
-          }),
-          variables: themeVars,
-        },
-        'night-light': {
-          dark: false,
-          colors: {
-            background: '#cbccd1',
-            surface: '#d5d6db',
-            primary: '#d5d6db',
-            secondary: '#cecfd4',
-            accent: '#34548a',
-            error: '#8c4351',
-            info: '#166775',
-            success: '#485e30',
-            warning: '#965027',
-            'on-background': '#4c505e',
-            'on-surface': '#343b59',
-            'on-primary': '#343b58',
-            'on-secondary': '#343b58',
-            'on-success': '#343b58',
-            'on-warning': '#343b58',
-            'on-error': '#343b58',
-            'on-info': '#343b58',
+  const vuetify = createVuetify(
+    deepmerge(
+      {
+        components,
+        directives,
+        icons: {
+          defaultSet: 'mdi',
+          aliases,
+          sets: {
+            mdi,
           },
-          variables: themeVars,
+        },
+        defaults: {
+          global: {
+            flat: true,
+          },
+          VAppBar: {
+            color: 'background',
+            flat: false,
+          },
+          VNavigationDrawer: {
+            color: 'background',
+            flat: false,
+          },
+          VFooter: {
+            color: 'background',
+            flat: false,
+          },
+        },
+        theme: {
+          defaultTheme: 'night',
+          themes: {
+            night: {
+              dark: true,
+              colors: makeDark({
+                background: '#1a1b26',
+                primary: '#1a1b26',
+              }),
+              variables: themeVars,
+            },
+            'night-storm': {
+              dark: true,
+              colors: makeDark({
+                background: '#1f2335',
+                primary: '#24283b',
+              }),
+              variables: themeVars,
+            },
+            'night-light': {
+              dark: false,
+              colors: {
+                background: '#cbccd1',
+                surface: '#d5d6db',
+                primary: '#d5d6db',
+                secondary: '#cecfd4',
+                accent: '#34548a',
+                error: '#8c4351',
+                info: '#166775',
+                success: '#485e30',
+                warning: '#965027',
+                'on-background': '#4c505e',
+                'on-surface': '#343b59',
+                'on-primary': '#343b58',
+                'on-secondary': '#343b58',
+                'on-success': '#343b58',
+                'on-warning': '#343b58',
+                'on-error': '#343b58',
+                'on-info': '#343b58',
+              },
+              variables: themeVars,
+            },
+          },
         },
       },
-    },
-  })
+      vuetifyOptions
+    )
+  )
 
   nuxtApp.vueApp.use(vuetify)
 })
