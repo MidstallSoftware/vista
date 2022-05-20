@@ -27,7 +27,7 @@
 </template>
 <script setup lang="ts">
 /* eslint @typescript-eslint/no-unused-vars: "warn" */
-import { ref, defineProps, computed, defineEmits } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface LocaleEntry {

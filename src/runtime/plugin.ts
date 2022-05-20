@@ -113,11 +113,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     'high-emphasis-opacity': 1,
     'medium-emphasis-opacity': 1,
   }
-  const vuetify = createVuetify(
-    deepmerge(
+  const vuetify = createVuetify({
+    components,
+    directives,
+    ...deepmerge(
       {
-        components,
-        directives,
         icons: {
           defaultSet: 'mdi',
           aliases,
@@ -187,9 +187,9 @@ export default defineNuxtPlugin((nuxtApp) => {
           },
         },
       },
-      vuetifyOptions
-    )
-  )
+      vuetifyOptions || {}
+    ),
+  })
 
   nuxtApp.vueApp.use(vuetify)
 })

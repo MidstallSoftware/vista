@@ -21,7 +21,7 @@
 </template>
 <script setup lang="ts">
 /* eslint @typescript-eslint/no-unused-vars: "warn" */
-import { ref, defineProps, defineEmits, watch, computed } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface ThemeEntry {

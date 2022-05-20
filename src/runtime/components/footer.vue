@@ -1,5 +1,5 @@
 <template>
-  <v-footer :class="'w-100' + extraClasses">
+  <v-footer :class="['w-100', ...extraClasses]">
     <div v-if="kind === 'company'" class="w-100">
       <v-card elevation="0" rounded="0" width="100%" class="text-center">
         <v-card-text>
@@ -42,10 +42,10 @@ const { kind, bottom, fixed } = defineProps<{
 }>()
 
 const extraClasses = computed(() => {
-  let str = ''
-  if (bottom) str += ' v-footer--bottom v-footer--absolute'
-  if (fixed) str += '  v-footer--fixed'
-  return str
+  const c = []
+  if (bottom) c.push('v-footer--bottom', 'v-footer--absolute')
+  if (fixed) c.push('v-footer--fixed')
+  return c
 })
 </script>
 <script lang="ts">
