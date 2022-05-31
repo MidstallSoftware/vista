@@ -23,7 +23,7 @@ jobs:
       - run: npm run lint
 
   publish-gpr:
-    if: github.event_name == 'release' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'release'
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -44,7 +44,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-npm:
-    if: github.event_name == 'release' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'release'
     needs: build
     runs-on: ubuntu-latest
     steps:
