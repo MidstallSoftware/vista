@@ -1,12 +1,12 @@
 import { useRoute, useHead, useNuxtApp } from '#app'
 import { branding } from '#midstallsw-vista-options'
-import { useI18n } from 'vue-i18n'
-import { computed } from 'vue'
+import { useI18n as _useI18n } from 'vue-i18n'
+import { computed, watch } from 'vue'
 import type { VistaInstance } from '../types'
 
 export const useVista = () => {
   const { $vista } = useNuxtApp()
-  const $i18n = useI18n({ useScope: 'global' })
+  const $i18n = _useI18n({ useScope: 'global' })
 
   const getWebsiteI18nKey = () => {
     switch (branding.kind) {
@@ -54,4 +54,18 @@ export const useVista = () => {
     getWebsiteName,
     defineHead,
   } as VistaInstance
+}
+
+export function useI18n(options?: Parameters<typeof _useI18n>[0] & {}) {
+  const $i18n = _useI18n(options)
+  const $vista = useVista()
+
+  watch(
+    () => $vista.cookies.locale.value,
+    (locale) => {
+      $i18n.locale = $vista.cookies.locale.value
+    }
+  )
+
+  return $i18n
 }

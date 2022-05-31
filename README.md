@@ -1,6 +1,8 @@
 # Vista
 
-Vista is a component library for Nuxt 3, it is designed for Midstall Software to make consistent websites using Vuetify. However, anyone can use vista.
+**Notice**: This branch is a refactor which replaces Vuetify with Tailwind. It breaks many features in `0.1.x` and so the version has been bumped to `1.0.0`.
+
+Vista is a component library for Nuxt 3, it is designed for Midstall Software to make consistent websites using Tailwind. However, anyone can use vista.
 
 ## Requirements
 
@@ -10,8 +12,6 @@ Vista can be installed into any Nuxt 3.0-rc1 project. However, you must install 
 
 - `@intlify/nuxt3`
 - `@nuxtjs/color-mode`
-- `@mdi/font`
-- `vuetify@3.0.0-beta.2`
 
 Another requirement of Vista is it needs to be included in your `nuxt.config.ts`'s `modules` before `@intlify/nuxt3` and `@nuxtjs/color-mode`.
 Without this, Vista cannot find it while compiling your website and so it cannot implement the fix for i18n translations in production.
@@ -30,18 +30,3 @@ Vista comes with many built-in components, layouts, and even themes.
 ### Themes
 
 - [Tokyo Night (**default**), Tokyo Night Storm, Tokyo Night Light](https://github.com/enkia/tokyo-night-vscode-theme)
-
-### Components
-
-- `vs-app`: Extended type from Vuetify's `v-app`
-- `vs-copyright`: A label for adding a copyright message
-- `vs-footer`: Extended type from Vuetify's `v-footer`, implements different layouts
-- `vs-lang-switcher`: A configurable language switching element, can render as a `v-select` or a button with a menu
-- `vs-link`: A very useful link building component, can render lists and menus
-- `vs-main`: Extended type from Vuetify's `v-main`, centers children
-- `vs-nav`: A `v-app-bar` with `v-navigation-drawer` that builds the menus for you
-- `vs-theme-switcher`: A configurable theme switching element, can render as a `v-select` or a button with a menu
-
-### Layouts
-
-- `vs-default`: A default layout, comes with everything someone would want for a basic website

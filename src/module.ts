@@ -5,17 +5,17 @@ import {
   extendViteConfig,
   defineNuxtModule,
   addAutoImport,
+  installModule,
 } from '@nuxt/kit'
 import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
 import { VitePluginVueI18nOptions } from '@intlify/vite-plugin-vue-i18n/lib/options'
-import vuetify from '@vuetify/vite-plugin'
 import { access } from 'fs/promises'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { name, version } from '../package.json'
 import { ModuleOptions } from './types'
 
-const LAYOUTS = ['default']
+const LAYOUTS = ['default', 'sidebar']
 
 const exists = async (path) => {
   try {
@@ -39,12 +39,12 @@ export default defineNuxtModule<ModuleOptions>({
     i18n: {
       localeDir: 'locales',
     },
-    vuetify: {},
     layouts: Object.fromEntries(
       LAYOUTS.map((name) => [
         name,
         {
           links: [],
+          center: true,
         },
       ])
     ),
@@ -66,20 +66,42 @@ export default defineNuxtModule<ModuleOptions>({
       )
 
       app.mainComponent = resolve(runtimeDir, 'app.vue')
-      app.errorComponent = resolve(runtimeDir, 'error.vue')
+      // app.errorComponent = resolve(runtimeDir, 'error.vue')
     },
   },
   async setup(options, nuxt) {
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
 
+    await installModule('@nuxtjs/color-mode', null, nuxt)
+    await installModule(
+      '@nuxtjs/tailwindcss',
+      {
+        configPath: resolve(nuxt.options.srcDir, 'tailwind.config.cjs'),
+        config: {
+          content: [
+            `${runtimeDir}/composables/**/*.{vue,ts,js}`,
+            `${runtimeDir}/components/**/*.{vue,ts,js}`,
+            `${runtimeDir}/layouts/**/*.vue`,
+            `${runtimeDir}/app.{js,ts,vue}`,
+          ],
+        },
+        cssPath: `${runtimeDir}/assets/css/tailwind.css`,
+        exposeConfig: true,
+      },
+      nuxt
+    )
+    await installModule('@intlify/nuxt3', null, nuxt)
+
     const localeDir = options.i18n.localeDir || 'locales'
     const localePath = resolve(nuxt.options.srcDir, localeDir)
     const hasLocaleFiles = await exists(localePath)
 
+    nuxt.options.postcss.plugins['tailwindcss'] =
+      nuxt.options.postcss.plugins['tailwindcss'] || {}
+    nuxt.options.postcss.plugins['autoprefixer'] =
+      nuxt.options.postcss.plugins['autoprefixer'] || {}
+
     nuxt.options.build.transpile.push(runtimeDir)
-    nuxt.options.build.transpile.push('vuetify')
-    nuxt.options.css.push('vuetify/styles')
-    nuxt.options.css.push('@mdi/font/css/materialdesignicons.min.css')
     nuxt.options.vite.define['process.env.DEBUG'] =
       nuxt.options.debug.toString()
 
@@ -132,24 +154,6 @@ export default defineNuxtModule<ModuleOptions>({
       }
 
       config.plugins[i] = vueI18n(viteOptions)
-      config.plugins.push(vuetify())
-
-      config.plugins.push({
-        name: 'vuetify-fix-config',
-        configResolved: (config) => {
-          const idx = config.plugins.findIndex(
-            (plugin) => plugin.name === 'vuetify:import'
-          )
-          const vueIdx = config.plugins.findIndex(
-            (plugin) => plugin.name === 'vite:vue'
-          )
-          if (~idx && idx < vueIdx) {
-            const plugin = (config.plugins as unknown[])[idx]
-            ;(config.plugins as []).splice(idx, 1)
-            ;(config.plugins as []).splice(vueIdx, 0, plugin as never)
-          }
-        },
-      })
 
       config.optimizeDeps.include.push('accept-language-parser')
       config.define['process.env.NODE_ENV'] = `"${

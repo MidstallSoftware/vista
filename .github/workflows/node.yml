@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - master
+      - 'refactor/**'
   pull_request:
     branches:
       - master
+      - 'refactor/**'
   release:
     types: [created]
 
@@ -21,7 +23,7 @@ jobs:
       - run: npm run lint
 
   publish-gpr:
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' && github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -42,7 +44,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-npm:
-    if: github.event_name == 'release'
+    if: github.event_name == 'release' && github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     steps:

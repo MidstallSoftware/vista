@@ -1,0 +1,22 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "tailwindCSS.experimental.configFile": "./playground/tailwind.config.cjs",
+  "terminal.integrated.profiles.linux": {
+    "Nix Shell (Host)": {
+      "path": "nix-shell"
+    },
+    "Nix Shell (Flatpak)": {
+      "path": "flatpak-spawn",
+      "args": ["--host", "--env=TERM=xterm-256color", "nix-shell"]
+    },
+    "Nix Shell": {
+      "path": "./scripts/nix-shell.sh"
+    }
+  },
+  "terminal.integrated.defaultProfile.linux": "Nix Shell (Flatpak)"
+}

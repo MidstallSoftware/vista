@@ -1,42 +1,44 @@
 <template>
-  <div>
-    <v-app-bar>
-      <template #prepend>
-        <v-app-bar-nav-icon
-          v-if="$vuetify.display.mobile"
-          @click="drawer = !drawer"
-        />
-      </template>
+  <vs-nav-drawer
+    :id="id"
+    :links="combineLinkCollection(sidedLinks.default, sidedLinks.drawer || [])"
+  >
+    <div>
+      <vs-nav-bar
+        v-if="kind !== false"
+        :kind="kind"
+        :links="
+          combineLinkCollection(sidedLinks.default, sidedLinks.navbar || [])
+        "
+        menu-class="hidden lg:inline-flex"
+        switcher-class="hidden lg:inline-flex dropdown-end"
+      >
+        <template #menu>
+          <label :for="id" class="drawer-button btn btn-primary">
+            <mdi-svg>{{ mdiMenu }}</mdi-svg>
+          </label>
+        </template>
+      </vs-nav-bar>
 
-      <v-app-bar-title>{{ websiteName }}</v-app-bar-title>
-
-      <slot name="navbar-prepend" />
-      <template #append>
-        <slot />
-        <slot name="navbar-append" />
-      </template>
-    </v-app-bar>
-    <v-navigation-drawer v-model="drawer" absolute temporary>
-      <slot name="drawer" />
       <slot />
-      <template #append>
-        <slot name="drawer-append" />
-      </template>
-    </v-navigation-drawer>
-  </div>
+    </div>
+  </vs-nav-drawer>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useVista } from '../composables/vista'
+import { mdiMenu } from '@mdi/js'
+import { generateLinkSides, combineLinkCollection } from '../composables/link'
+import { LinkCollection, NavbarKind } from '../../types'
 
-const $vista = useVista()
+const { links, id, kind } = defineProps<{
+  links?: LinkCollection
+  id: string
+  kind?: NavbarKind | false
+}>()
 
-const drawer = ref(false)
-
-const websiteName = computed(() => $vista.getWebsiteName())
+const sidedLinks = generateLinkSides(links)
 </script>
 <script lang="ts">
 export default {
-  name: 'VSNav',
+  name: 'VsNav',
 }
 </script>

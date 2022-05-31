@@ -2,4 +2,12 @@
 . "$(dirname "$0")/_/husky.sh"
 . "$(dirname "$0")/common.sh"
 
-npx commitlint --edit $1
+if [[ -z "$FLATPAK_ID" ]]; then
+    if [[ -d /nix ]]; then
+        exec nix-shell --command "npx commitlint --edit $1"
+    else
+        npx commitlint --edit $1
+    fi
+else
+    exec flatpak-spawn --host --env=TERM=xterm-256color $0 $@
+fi
