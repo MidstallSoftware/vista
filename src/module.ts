@@ -4,8 +4,9 @@ import {
   addTemplate,
   extendViteConfig,
   defineNuxtModule,
-  addAutoImport,
   installModule,
+  addImports,
+  addLayout,
 } from '@nuxt/kit'
 import { vueI18n } from '@intlify/vite-plugin-vue-i18n'
 import { VitePluginVueI18nOptions } from '@intlify/vite-plugin-vue-i18n/lib/options'
@@ -96,10 +97,10 @@ export default defineNuxtModule<ModuleOptions>({
     const localePath = resolve(nuxt.options.srcDir, localeDir)
     const hasLocaleFiles = await exists(localePath)
 
-    nuxt.options.postcss.plugins['tailwindcss'] =
-      nuxt.options.postcss.plugins['tailwindcss'] || {}
-    nuxt.options.postcss.plugins['autoprefixer'] =
-      nuxt.options.postcss.plugins['autoprefixer'] || {}
+    nuxt.options.postcss.plugins.tailwindcss =
+      nuxt.options.postcss.plugins.tailwindcss || {}
+    nuxt.options.postcss.plugins.autoprefixer =
+      nuxt.options.postcss.plugins.autoprefixer || {}
 
     nuxt.options.build.transpile.push(runtimeDir)
     nuxt.options.vite.define['process.env.DEBUG'] =
@@ -107,7 +108,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     for (const fname of ['default']) {
       const path = resolve(runtimeDir, nuxt.options.dir.layouts, `${fname}.vue`)
-      nuxt.options.layouts[`vs-${fname}.vue`] = path
+      addLayout({
+        filename: `vs-${fname}`,
+        src: path,
+      })
     }
 
     nuxt.options.alias['#midstallsw-vista-options'] = addTemplate({
@@ -122,7 +126,7 @@ export default defineNuxtModule<ModuleOptions>({
           .join('\n'),
     }).dst
 
-    addAutoImport({
+    addImports({
       name: 'useVista',
       as: 'useVista',
       from: resolve(runtimeDir, 'composables', 'vista'),
@@ -150,7 +154,7 @@ export default defineNuxtModule<ModuleOptions>({
       }
 
       if (hasLocaleFiles) {
-        viteOptions['include'] = resolve(localeDir, './**')
+        viteOptions.include = resolve(localeDir, './**')
       }
 
       config.plugins[i] = vueI18n(viteOptions)
